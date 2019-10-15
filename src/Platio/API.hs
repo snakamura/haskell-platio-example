@@ -1,5 +1,6 @@
 module Platio.API
-    ( newAPI
+    ( API
+    , newAPI
     , getLatestRecords
     , updateRecord
     ) where

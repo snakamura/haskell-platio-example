@@ -28,16 +28,15 @@ main :: IO ()
 main = do
     let opts = Opt.info optionsParser Opt.fullDesc
     options <- Opt.execParser opts
-    process options
-
+    api <- API.newAPI collectionUrl (authorization options)
+    process api
 
 collectionUrl :: Text
 collectionUrl = "https://api.plat.io/v1/pwdhds3gsg5chpc6p4oes3af2ki/collections/t1c7d21c"
 
 
-process :: Options -> IO ()
-process options = do
-    api <- API.newAPI collectionUrl (authorization options)
+process :: API.API -> IO ()
+process api = do
     records <- API.getLatestRecords api 10
     for_ records $ \record ->
         let name = maybe "" R.stringValue (R.name $ R.values record)
